@@ -1,0 +1,27 @@
+# IntelliJ IDEA
+.idea/
+*.iml
+
+# Java compiled files
+*.class
+bin/
+out/
+
+# Build/distribution output
+dist/
+
+# Generated JAR
+*.jar
+
+# Keep required library dependencies
+!lib/
+!lib/*.jar
+
+# Local databases
+*.db
+*.sqlite
+*.sqlite3
+
+# OS files
+.DS_Store
+Thumbs.db
