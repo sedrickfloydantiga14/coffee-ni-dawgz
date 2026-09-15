@@ -1,0 +1,35 @@
+========================================
+            COFFEE NI DAWGZ
+       "Brewed for Good Dawgz 🐾"
+      Welcome to Coffee ni Dawgz!
+        123 Paws Street, Dogtown
+========================================
+
+Order #:    ORDER #000001
+Cashier:    Juan Cashier
+Date:       08/16/2026
+Time:       06:47 PM
+----------------------------------------
+
+Americano (Large)                ₱240.00
+  2 x ₱120.00                           
+  Temp: Iced
+  Sugar: 50%
+  Milk: Fresh Milk
+
+----------------------------------------
+Subtotal:                        ₱240.00
+Discount (Senior Citizen (20%)): -       ₱48.00
+VAT (12%):                        ₱23.04
+========================================
+TOTAL:                           ₱215.04
+========================================
+
+Payment Method: CASH
+Amount Paid:                     ₱315.04
+Change:                          ₱100.00
+
+========================================
+          THANK YOU, DAWG! 🐾
+          Have a pawsome day!
+========================================

@@ -1,0 +1,35 @@
+========================================
+            COFFEE NI DAWGZ
+       "Brewed for Good Dawgz 🐾"
+      Welcome to Coffee ni Dawgz!
+        123 Paws Street, Dogtown
+========================================
+
+Order #:    ORDER #000003
+Cashier:    Admin Dawg
+Date:       08/19/2026
+Time:       11:01 PM
+----------------------------------------
+
+Spanish Latte (Medium)           ₱250.00
+  2 x ₱125.00                           
+  Temp: Iced
+  Sugar: 100% (Normal)
+  Milk: Fresh Milk
+
+----------------------------------------
+Subtotal:                        ₱250.00
+Discount (Student (10%)): -       ₱25.00
+VAT (12%):                        ₱27.00
+========================================
+TOTAL:                           ₱252.00
+========================================
+
+Payment Method: CASH
+Amount Paid:                     ₱500.00
+Change:                          ₱248.00
+
+========================================
+          THANK YOU, DAWG! 🐾
+          Have a pawsome day!
+========================================
