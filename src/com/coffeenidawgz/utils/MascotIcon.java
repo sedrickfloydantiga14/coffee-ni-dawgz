@@ -18,19 +18,22 @@ public class MascotIcon {
     private static boolean imageCacheInitialized = false;
 
     private static synchronized BufferedImage getLogoImage() {
-        if (cachedLogo != null) return cachedLogo;
+        if (cachedLogo != null)
+            return cachedLogo;
 
         try {
             // 1. Check ClassLoader resource
             InputStream is = MascotIcon.class.getResourceAsStream("/resources/logo.jpg");
-            if (is == null) is = MascotIcon.class.getResourceAsStream("/logo.jpg");
+            if (is == null)
+                is = MascotIcon.class.getResourceAsStream("/logo.jpg");
             if (is != null) {
                 cachedLogo = ImageIO.read(is);
                 return cachedLogo;
             }
 
             // 2. Check local file paths
-            String[] filePaths = new String[]{"logo.jpg", "assets/logo.jpg", "src/resources/logo.jpg"};
+            String[] filePaths = new String[] { "logo.jpg", "assets/logo.jpg",
+                    "src/resources/logo.jpg" };
             for (String fp : filePaths) {
                 File f = new File(fp);
                 if (f.exists()) {
@@ -46,11 +49,12 @@ public class MascotIcon {
     }
 
     private static synchronized void initializeProductImageCache() {
-        if (imageCacheInitialized) return;
+        if (imageCacheInitialized)
+            return;
         imageCacheInitialized = true;
 
         // Known image files in images directory with exact case & variations
-        String[] knownFiles = new String[]{
+        String[] knownFiles = new String[] {
                 "Americano.jpg", "Americano.png",
                 "Latte.jpg", "Latte.png",
                 "Mocha.jpg", "Mocha.png",
@@ -72,9 +76,11 @@ public class MascotIcon {
         File imagesDir = new File("images");
         if (!imagesDir.exists()) {
             try {
-                File codeLocation = new File(MascotIcon.class.getProtectionDomain().getCodeSource().getLocation().toURI());
+                File codeLocation = new File(
+                        MascotIcon.class.getProtectionDomain().getCodeSource().getLocation().toURI());
                 imagesDir = new File(codeLocation.getParentFile(), "images");
-            } catch (Exception ignored) {}
+            } catch (Exception ignored) {
+            }
         }
         if (imagesDir.exists() && imagesDir.isDirectory()) {
             File[] files = imagesDir.listFiles();
@@ -89,7 +95,8 @@ public class MascotIcon {
                                 String key = (dotIndex > 0 ? name.substring(0, dotIndex) : name).toLowerCase();
                                 productImageCache.put(key, img);
                             }
-                        } catch (Exception ignored) {}
+                        } catch (Exception ignored) {
+                        }
                     }
                 }
             }
@@ -97,12 +104,14 @@ public class MascotIcon {
     }
 
     private static BufferedImage loadSingleImage(String filename) {
-        if (filename == null || filename.trim().isEmpty()) return null;
-        String nameOnly = filename.contains("/") ? filename.substring(filename.lastIndexOf('/') + 1) :
-                         (filename.contains("\\") ? filename.substring(filename.lastIndexOf('\\') + 1) : filename);
+        if (filename == null || filename.trim().isEmpty())
+            return null;
+        String nameOnly = filename.contains("/") ? filename.substring(filename.lastIndexOf('/') + 1)
+                : (filename.contains("\\") ? filename.substring(filename.lastIndexOf('\\') + 1)
+                        : filename);
 
         // 1. Try disk paths
-        String[] possiblePaths = new String[]{
+        String[] possiblePaths = new String[] {
                 filename,
                 "images/" + nameOnly,
                 "NewProject/images/" + nameOnly,
@@ -114,13 +123,15 @@ public class MascotIcon {
                 File f = new File(path);
                 if (f.exists() && f.isFile()) {
                     BufferedImage img = ImageIO.read(f);
-                    if (img != null) return img;
+                    if (img != null)
+                        return img;
                 }
-            } catch (Exception ignored) {}
+            } catch (Exception ignored) {
+            }
         }
 
         // 2. Try classpath resources
-        String[] resourcePaths = new String[]{
+        String[] resourcePaths = new String[] {
                 "/" + filename,
                 "/images/" + nameOnly,
                 "/resources/images/" + nameOnly
@@ -130,9 +141,11 @@ public class MascotIcon {
                 InputStream is = MascotIcon.class.getResourceAsStream(res);
                 if (is != null) {
                     BufferedImage img = ImageIO.read(is);
-                    if (img != null) return img;
+                    if (img != null)
+                        return img;
                 }
-            } catch (Exception ignored) {}
+            } catch (Exception ignored) {
+            }
         }
 
         return null;
@@ -141,11 +154,15 @@ public class MascotIcon {
     public static ImageIcon getMascotIcon(int width, int height) {
         BufferedImage logo = getLogoImage();
         if (logo != null) {
-            BufferedImage scaled = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+            BufferedImage scaled = new BufferedImage(width, height,
+                    BufferedImage.TYPE_INT_ARGB);
             Graphics2D g2 = scaled.createGraphics();
-            g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-            g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC);
-            g2.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
+            g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+                    RenderingHints.VALUE_ANTIALIAS_ON);
+            g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION,
+                    RenderingHints.VALUE_INTERPOLATION_BICUBIC);
+            g2.setRenderingHint(RenderingHints.KEY_RENDERING,
+                    RenderingHints.VALUE_RENDER_QUALITY);
 
             g2.drawImage(logo, 0, 0, width, height, null);
             g2.dispose();
@@ -156,15 +173,18 @@ public class MascotIcon {
     }
 
     public static ImageIcon getProductIcon(com.coffeenidawgz.models.Product product, int width, int height) {
-        if (product == null) return getMascotIcon(width, height);
-        return getProductIcon(product.getName(), product.getImagePath(), width, height);
+        if (product == null)
+            return getMascotIcon(width, height);
+        return getProductIcon(product.getName(), product.getImagePath(), width,
+                height);
     }
 
     public static ImageIcon getProductIcon(String productName, int width, int height) {
         return getProductIcon(productName, null, width, height);
     }
 
-    public static ImageIcon getProductIcon(String productName, String imagePath, int width, int height) {
+    public static ImageIcon getProductIcon(String productName, String imagePath,
+            int width, int height) {
         initializeProductImageCache();
 
         BufferedImage img = null;
@@ -179,13 +199,21 @@ public class MascotIcon {
             String clean = productName.replaceAll("[^a-zA-Z0-9]", "").toLowerCase();
 
             String imageKey = null;
-            if (clean.contains("americano")) imageKey = "americano";
-            else if (clean.contains("icedmocha")) imageKey = "icedmocha";
-            else if (clean.contains("mocha")) imageKey = "mocha";
-            else if (clean.contains("matcha") || clean.contains("tea")) imageKey = "matchalatte";
-            else if (clean.contains("chocolate") || clean.contains("cocoa")) imageKey = "hotchocolate";
-            else if (clean.contains("latte") || clean.contains("cappuccino")) imageKey = "latte";
-            else if (clean.contains("brownie") || clean.contains("cookie") || clean.contains("cake") || clean.contains("sandwich")) imageKey = "fudgebrownies";
+            if (clean.contains("americano"))
+                imageKey = "americano";
+            else if (clean.contains("icedmocha"))
+                imageKey = "icedmocha";
+            else if (clean.contains("mocha"))
+                imageKey = "mocha";
+            else if (clean.contains("matcha") || clean.contains("tea"))
+                imageKey = "matchalatte";
+            else if (clean.contains("chocolate") || clean.contains("cocoa"))
+                imageKey = "hotchocolate";
+            else if (clean.contains("latte") || clean.contains("cappuccino"))
+                imageKey = "latte";
+            else if (clean.contains("brownie") || clean.contains("cookie") ||
+                    clean.contains("cake") || clean.contains("sandwich"))
+                imageKey = "fudgebrownies";
 
             if (imageKey != null && productImageCache.containsKey(imageKey)) {
                 img = productImageCache.get(imageKey);
@@ -206,13 +234,18 @@ public class MascotIcon {
         }
 
         if (img != null) {
-            BufferedImage scaled = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+            BufferedImage scaled = new BufferedImage(width, height,
+                    BufferedImage.TYPE_INT_ARGB);
             Graphics2D g2 = scaled.createGraphics();
-            g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-            g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC);
-            g2.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
+            g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+                    RenderingHints.VALUE_ANTIALIAS_ON);
+            g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION,
+                    RenderingHints.VALUE_INTERPOLATION_BICUBIC);
+            g2.setRenderingHint(RenderingHints.KEY_RENDERING,
+                    RenderingHints.VALUE_RENDER_QUALITY);
 
-            g2.setClip(new java.awt.geom.RoundRectangle2D.Double(0, 0, width, height, 10, 10));
+            g2.setClip(new java.awt.geom.RoundRectangle2D.Double(0, 0, width, height, 10,
+                    10));
             g2.drawImage(img, 0, 0, width, height, null);
             g2.dispose();
             return new ImageIcon(scaled);
@@ -222,10 +255,12 @@ public class MascotIcon {
     }
 
     private static ImageIcon drawFallbackLogo(int width, int height) {
-        BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+        BufferedImage image = new BufferedImage(width, height,
+                BufferedImage.TYPE_INT_ARGB);
         Graphics2D g2 = image.createGraphics();
 
-        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+                RenderingHints.VALUE_ANTIALIAS_ON);
 
         double cx = width / 2.0;
         double cy = height / 2.0;
@@ -233,13 +268,14 @@ public class MascotIcon {
 
         GradientPaint bgGrad = new GradientPaint(
                 0, 0, new Color(0xFF, 0xEE, 0xDD),
-                width, height, new Color(0xE0, 0xA8, 0x68)
-        );
+                width, height, new Color(0xE0, 0xA8, 0x68));
         g2.setPaint(bgGrad);
-        g2.fill(new Ellipse2D.Double(2 * scale, 2 * scale, (width - 4 * scale), (height - 4 * scale)));
+        g2.fill(new Ellipse2D.Double(2 * scale, 2 * scale, (width - 4 * scale),
+                (height - 4 * scale)));
 
         g2.setColor(new Color(0x3E, 0x27, 0x23));
-        g2.fill(new RoundRectangle2D.Double(cx - 8 * scale, cy - 2 * scale, 16 * scale, 11 * scale, 6 * scale, 6 * scale));
+        g2.fill(new RoundRectangle2D.Double(cx - 8 * scale, cy - 2 * scale, 16 *
+                scale, 11 * scale, 6 * scale, 6 * scale));
 
         g2.dispose();
         return new ImageIcon(image);

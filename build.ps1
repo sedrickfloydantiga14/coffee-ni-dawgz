@@ -3,7 +3,8 @@
 $ErrorActionPreference = "Stop"
 
 # Terminate any running instances to prevent file lock errors
-Get-Process -Name CoffeeNiDawgz -ErrorAction SilentlyContinue | Stop-Process -Force -ErrorAction SilentlyContinue
+Get-Process -Name CoffeeNiDawgz* -ErrorAction SilentlyContinue | Stop-Process -Force -ErrorAction SilentlyContinue
+Get-Process -Name javaw -ErrorAction SilentlyContinue | Stop-Process -Force -ErrorAction SilentlyContinue
 Get-Process -Name java -ErrorAction SilentlyContinue | Stop-Process -Force -ErrorAction SilentlyContinue
 Start-Sleep -Milliseconds 500
 
@@ -60,12 +61,38 @@ if ($LASTEXITCODE -eq 0) {
     Remove-Item -Recurse -Force $tempDir
     Remove-Item -Force "Manifest.txt"
 
-    # Sync to dist/CoffeeNiDawgz/app/ if dist exists
-    if (Test-Path "dist\CoffeeNiDawgz\app") {
-        Copy-Item "CoffeeNiDawgz.jar" "dist\CoffeeNiDawgz\app\CoffeeNiDawgz.jar" -Force
+    # Sync to dist/CoffeeNiDawgz/ if dist exists
+    if (Test-Path "dist\CoffeeNiDawgz") {
+        # Update app folder
+        if (Test-Path "dist\CoffeeNiDawgz\app") {
+            Copy-Item "CoffeeNiDawgz.jar" "dist\CoffeeNiDawgz\app\CoffeeNiDawgz.jar" -Force
+            if (Test-Path "logo.jpg") { Copy-Item "logo.jpg" "dist\CoffeeNiDawgz\app\logo.jpg" -Force }
+            if (Test-Path "images") { Copy-Item -Recurse -Force "images\*" "dist\CoffeeNiDawgz\app\images" }
+            if (Test-Path "dist\CoffeeNiDawgz\app\CoffeeNiDawgz.cfg") {
+                Copy-Item "dist\CoffeeNiDawgz\app\CoffeeNiDawgz.cfg" "dist\CoffeeNiDawgz\app\CoffeeNiDawgzV2.cfg" -Force
+            }
+        }
+        # Update root dist folder assets
+        if (Test-Path "images") {
+            if (-not (Test-Path "dist\CoffeeNiDawgz\images")) { New-Item -ItemType Directory -Path "dist\CoffeeNiDawgz\images" | Out-Null }
+            Copy-Item -Recurse -Force "images\*" "dist\CoffeeNiDawgz\images"
+        }
+        if (Test-Path "coffee_ni_dawgz.db") {
+            Copy-Item "coffee_ni_dawgz.db" "dist\CoffeeNiDawgz\coffee_ni_dawgz.db" -Force
+        }
+        if (Test-Path "receipts") {
+            if (-not (Test-Path "dist\CoffeeNiDawgz\receipts")) { New-Item -ItemType Directory -Path "dist\CoffeeNiDawgz\receipts" | Out-Null }
+            Copy-Item -Recurse -Force "receipts\*" "dist\CoffeeNiDawgz\receipts"
+        }
+        # Ensure both CoffeeNiDawgzV2.exe and CoffeeNiDawgz.exe exist
+        if (Test-Path "dist\CoffeeNiDawgz\CoffeeNiDawgzV2.exe") {
+            Copy-Item "dist\CoffeeNiDawgz\CoffeeNiDawgzV2.exe" "dist\CoffeeNiDawgz\CoffeeNiDawgz.exe" -Force
+        } elseif (Test-Path "dist\CoffeeNiDawgz\CoffeeNiDawgz.exe") {
+            Copy-Item "dist\CoffeeNiDawgz\CoffeeNiDawgz.exe" "dist\CoffeeNiDawgz\CoffeeNiDawgzV2.exe" -Force
+        }
     }
 
-    # Refresh Desktop Shortcut
+    # Refresh Desktop Shortcuts
     if (Test-Path "create_shortcut.ps1") {
         & powershell -ExecutionPolicy Bypass -File .\create_shortcut.ps1
     }
@@ -74,3 +101,4 @@ if ($LASTEXITCODE -eq 0) {
 } else {
     Write-Host "Compilation failed with code $LASTEXITCODE" -ForegroundColor Red
 }
+

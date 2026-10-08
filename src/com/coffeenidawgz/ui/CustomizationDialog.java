@@ -43,7 +43,8 @@ public class CustomizationDialog extends JDialog {
         // Header
         JPanel pnlTitleHeader = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 0));
         pnlTitleHeader.setOpaque(false);
-        JLabel lblProductImg = new JLabel(com.coffeenidawgz.utils.MascotIcon.getProductIcon(product, 64, 64));
+        // JLabel lblProductImg = new
+        // JLabel(com.coffeenidawgz.utils.MascotIcon.getProductIcon(product, 64, 64));
 
         JPanel pnlTitleText = new JPanel();
         pnlTitleText.setLayout(new BoxLayout(pnlTitleText, BoxLayout.Y_AXIS));
@@ -61,7 +62,7 @@ public class CustomizationDialog extends JDialog {
         pnlTitleText.add(Box.createVerticalStrut(4));
         pnlTitleText.add(lblDesc);
 
-        pnlTitleHeader.add(lblProductImg);
+        // pnlTitleHeader.add(lblProductImg);
         pnlTitleHeader.add(pnlTitleText);
 
         pnlMain.add(pnlTitleHeader);
@@ -109,7 +110,8 @@ public class CustomizationDialog extends JDialog {
 
             // 3. Sugar Level
             JPanel pnlSugar = createSectionPanel("Sugar Level:");
-            cboSugar = new JComboBox<>(new String[]{"100% (Normal)", "75% (Less Sweet)", "50% (Half Sweet)", "25% (Mild)", "0% (No Sugar)"});
+            cboSugar = new JComboBox<>(new String[] { "100% (Normal)", "75% (Less Sweet)", "50% (Half Sweet)",
+                    "25% (Mild)", "0% (No Sugar)" });
             cboSugar.setSelectedIndex(0);
             pnlSugar.add(cboSugar);
             pnlMain.add(pnlSugar);
@@ -117,7 +119,8 @@ public class CustomizationDialog extends JDialog {
 
             // 4. Milk Option
             JPanel pnlMilk = createSectionPanel("Milk Choice:");
-            cboMilk = new JComboBox<>(new String[]{"Fresh Milk", "Full Cream", "Oat Milk", "Soy Milk", "Almond Milk"});
+            cboMilk = new JComboBox<>(
+                    new String[] { "Fresh Milk", "Full Cream", "Oat Milk", "Soy Milk", "Almond Milk" });
             cboMilk.setSelectedIndex(0);
             pnlMilk.add(cboMilk);
             pnlMain.add(pnlMilk);
@@ -172,8 +175,7 @@ public class CustomizationDialog extends JDialog {
                 title,
                 0, 0,
                 new Font("Segoe UI", Font.BOLD, 12),
-                new Color(0x4E, 0x34, 0x2E)
-        ));
+                new Color(0x4E, 0x34, 0x2E)));
         return pnl;
     }
 
@@ -189,8 +191,10 @@ public class CustomizationDialog extends JDialog {
         }
 
         String temp = "N/A";
-        if (rdoHot != null && rdoHot.isSelected()) temp = "Hot";
-        else if (rdoIced != null && rdoIced.isSelected()) temp = "Iced";
+        if (rdoHot != null && rdoHot.isSelected())
+            temp = "Hot";
+        else if (rdoIced != null && rdoIced.isSelected())
+            temp = "Iced";
 
         String sugar = cboSugar != null ? (String) cboSugar.getSelectedItem() : "N/A";
         String milk = cboMilk != null ? (String) cboMilk.getSelectedItem() : "N/A";

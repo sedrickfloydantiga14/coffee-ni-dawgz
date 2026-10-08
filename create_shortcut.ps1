@@ -1,15 +1,55 @@
 $WshShell = New-Object -ComObject WScript.Shell
-$DesktopPath = [System.Environment]::GetFolderPath('Desktop')
-$ShortcutPath = Join-Path $DesktopPath "Coffee ni Dawgz POS.lnk"
 
-$ExeFile = Get-Item "dist/CoffeeNiDawgz/CoffeeNiDawgz.exe"
-$IconFile = Get-Item "app.ico"
+# Identify desktop directories (both default and OneDrive redirected)
+$desktopDirs = @()
+$envDesktop = [System.Environment]::GetFolderPath('Desktop')
+if ($envDesktop -and (Test-Path $envDesktop)) { $desktopDirs += $envDesktop }
 
-$Shortcut = $WshShell.CreateShortcut($ShortcutPath)
-$Shortcut.TargetPath = $ExeFile.FullName
-$Shortcut.WorkingDirectory = $ExeFile.DirectoryName
-$Shortcut.IconLocation = $IconFile.FullName
-$Shortcut.Description = "Coffee ni Dawgz POS System"
-$Shortcut.Save()
+$userProfile = [System.Environment]::GetFolderPath('UserProfile')
+$localDesktop = Join-Path $userProfile "Desktop"
+if ($localDesktop -and (Test-Path $localDesktop) -and ($desktopDirs -notcontains $localDesktop)) {
+    $desktopDirs += $localDesktop
+}
 
-Write-Host "Desktop shortcut created successfully at: $ShortcutPath"
+# Locate target executable
+$exeCandidates = @(
+    "dist\CoffeeNiDawgz\CoffeeNiDawgzV2.exe",
+    "dist\CoffeeNiDawgz\CoffeeNiDawgz.exe",
+    "CoffeeNiDawgzV2.exe",
+    "CoffeeNiDawgz.exe"
+)
+
+$targetExe = $null
+foreach ($cand in $exeCandidates) {
+    if (Test-Path $cand) {
+        $targetExe = (Get-Item $cand).FullName
+        break
+    }
+}
+
+if (-not $targetExe) {
+    Write-Error "Could not locate application executable in dist\CoffeeNiDawgz or root."
+    exit 1
+}
+
+$workingDir = (Split-Path -Path $targetExe -Parent)
+$iconPath = if (Test-Path "app.ico") { (Get-Item "app.ico").FullName } else { $targetExe }
+
+# Shortcut names to register/update
+$shortcutNames = @(
+    "Coffee ni Dawgz V2.lnk",
+    "Coffee ni Dawgz POS.lnk"
+)
+
+foreach ($dir in $desktopDirs) {
+    foreach ($scName in $shortcutNames) {
+        $scPath = Join-Path $dir $scName
+        $shortcut = $WshShell.CreateShortcut($scPath)
+        $shortcut.TargetPath = $targetExe
+        $shortcut.WorkingDirectory = $workingDir
+        $shortcut.IconLocation = "$iconPath,0"
+        $shortcut.Description = "Coffee ni Dawgz V2 POS System"
+        $shortcut.Save()
+        Write-Host "Desktop shortcut created/updated at: $scPath" -ForegroundColor Green
+    }
+}

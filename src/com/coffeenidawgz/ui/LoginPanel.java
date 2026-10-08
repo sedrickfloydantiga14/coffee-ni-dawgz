@@ -27,8 +27,7 @@ public class LoginPanel extends JPanel {
         card.setBackground(new Color(0xFF, 0xF8, 0xE7)); // Cream Amber
         card.setBorder(BorderFactory.createCompoundBorder(
                 BorderFactory.createLineBorder(new Color(0xD7, 0xCC, 0xB9), 2, true),
-                new EmptyBorder(30, 40, 35, 40)
-        ));
+                new EmptyBorder(30, 40, 35, 40)));
 
         // Mascot Icon
         JLabel lblMascot = new JLabel(MascotIcon.getMascotIcon(110, 110));

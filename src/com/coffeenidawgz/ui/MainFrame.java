@@ -37,6 +37,7 @@ public class MainFrame extends JFrame {
         setLocationRelativeTo(null);
 
         // Set Window & Taskbar Logo Icon
+
         try {
             ImageIcon mascot = MascotIcon.getMascotIcon(128, 128);
             if (mascot != null && mascot.getImage() != null) {
@@ -48,7 +49,8 @@ public class MainFrame extends JFrame {
                     }
                 }
             }
-        } catch (Exception ignored) {}
+        } catch (Exception ignored) {
+        }
 
         initUI();
     }
@@ -72,11 +74,11 @@ public class MainFrame extends JFrame {
 
         JPanel pnlBrand = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 0));
         pnlBrand.setOpaque(false);
-        JLabel lblMascot = new JLabel(MascotIcon.getMascotIcon(42, 42));
+        // JLabel lblMascot = new JLabel(MascotIcon.getMascotIcon(42, 42));
         JLabel lblBrandTitle = new JLabel("COFFEE NI DAWGZ");
         lblBrandTitle.setFont(new Font("Segoe UI", Font.BOLD, 18));
         lblBrandTitle.setForeground(new Color(0xFF, 0xEC, 0xB3));
-        pnlBrand.add(lblMascot);
+        // pnlBrand.add(lblMascot);
         pnlBrand.add(lblBrandTitle);
 
         JPanel pnlUserArea = new JPanel(new FlowLayout(FlowLayout.RIGHT, 15, 0));
@@ -141,7 +143,8 @@ public class MainFrame extends JFrame {
 
     public void onLoginSuccess() {
         var user = AuthService.getInstance().getCurrentUser();
-        if (user == null) return;
+        if (user == null)
+            return;
 
         lblUserInfo.setText(user.getFullName() + " (" + user.getRole() + ")");
 
@@ -195,14 +198,22 @@ public class MainFrame extends JFrame {
 
         btn.addActionListener(e -> {
             contentCardLayout.show(contentCardPanel, cardName);
-            if ("POS".equals(cardName)) posPanel.loadProducts(0);
-            else if ("DASHBOARD".equals(cardName)) dashboardPanel.refreshDashboardData();
-            else if ("PRODUCTS".equals(cardName)) productPanel.refreshProducts();
-            else if ("INVENTORY".equals(cardName)) inventoryPanel.refreshData();
-            else if ("EMPLOYEES".equals(cardName)) employeePanel.refreshUsers();
-            else if ("REPORTS".equals(cardName)) reportsPanel.generateReport(1);
-            else if ("TRANSACTIONS".equals(cardName)) transactionsPanel.refreshTransactions();
-            else if ("SETTINGS".equals(cardName)) settingsPanel.loadSettings();
+            if ("POS".equals(cardName))
+                posPanel.loadProducts(0);
+            else if ("DASHBOARD".equals(cardName))
+                dashboardPanel.refreshDashboardData();
+            else if ("PRODUCTS".equals(cardName))
+                productPanel.refreshProducts();
+            else if ("INVENTORY".equals(cardName))
+                inventoryPanel.refreshData();
+            else if ("EMPLOYEES".equals(cardName))
+                employeePanel.refreshUsers();
+            else if ("REPORTS".equals(cardName))
+                reportsPanel.generateReport(1);
+            else if ("TRANSACTIONS".equals(cardName))
+                transactionsPanel.refreshTransactions();
+            else if ("SETTINGS".equals(cardName))
+                settingsPanel.loadSettings();
         });
         return btn;
     }

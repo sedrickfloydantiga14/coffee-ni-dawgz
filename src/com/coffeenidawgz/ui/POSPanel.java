@@ -94,8 +94,7 @@ public class POSPanel extends JPanel {
         pnlCart.setBackground(new Color(0xFF, 0xFA, 0xF0));
         pnlCart.setBorder(BorderFactory.createCompoundBorder(
                 BorderFactory.createLineBorder(new Color(0xD7, 0xCC, 0xB9), 2, true),
-                new EmptyBorder(12, 12, 12, 12)
-        ));
+                new EmptyBorder(12, 12, 12, 12)));
 
         // Cart Header
         JLabel lblCartHeader = new JLabel("Shopping Cart", JLabel.LEFT);
@@ -104,7 +103,7 @@ public class POSPanel extends JPanel {
         pnlCart.add(lblCartHeader, BorderLayout.NORTH);
 
         // Cart Table
-        String[] cols = {"Item Details", "Qty", "Price", "Total"};
+        String[] cols = { "Item Details", "Qty", "Price", "Total" };
         cartTableModel = new DefaultTableModel(cols, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
@@ -171,7 +170,8 @@ public class POSPanel extends JPanel {
         cboDiscounts = new JComboBox<>();
         cboDiscounts.addItem(null); // No discount option
         List<Discount> discounts = discountDAO.getAllDiscounts();
-        for (Discount d : discounts) cboDiscounts.addItem(d);
+        for (Discount d : discounts)
+            cboDiscounts.addItem(d);
         cboDiscounts.addActionListener(e -> {
             posService.setSelectedDiscount((Discount) cboDiscounts.getSelectedItem());
             refreshCartDisplay();
@@ -204,8 +204,7 @@ public class POSPanel extends JPanel {
                 "Payment Method",
                 0, 0,
                 new Font("Segoe UI", Font.BOLD, 12),
-                new Color(0x3E, 0x27, 0x23)
-        ));
+                new Color(0x3E, 0x27, 0x23)));
 
         rdoCash = new JRadioButton("CASH", true);
         rdoGCash = new JRadioButton("GCASH", false);
@@ -237,11 +236,11 @@ public class POSPanel extends JPanel {
             String gcashName = settingDAO.getSetting("GCASH_NAME", "COFFEE NI DAWGZ POS");
             JOptionPane.showMessageDialog(this,
                     "OFFLINE GCASH INSTRUCTIONS:\n\n" +
-                    "Send payment to GCash:\n" +
-                    "Account Name: " + gcashName + "\n" +
-                    "Account Number: " + gcashNum + "\n" +
-                    "Total Amount: " + CurrencyFormatter.format(posService.getTotal()) + "\n\n" +
-                    "Cashier must verify customer's reference SMS before completing order.",
+                            "Send payment to GCash:\n" +
+                            "Account Name: " + gcashName + "\n" +
+                            "Account Number: " + gcashNum + "\n" +
+                            "Total Amount: " + CurrencyFormatter.format(posService.getTotal()) + "\n\n" +
+                            "Cashier must verify customer's reference SMS before completing order.",
                     "GCash Information",
                     JOptionPane.INFORMATION_MESSAGE);
         });
@@ -255,7 +254,8 @@ public class POSPanel extends JPanel {
         pnlSummary.add(Box.createVerticalStrut(10));
 
         // Checkout Button
-        btnCheckout = new StyledButton("COMPLETE TRANSACTION", new Color(0x3E, 0x27, 0x23), new Color(0xFF, 0xEC, 0xB3), 8);
+        btnCheckout = new StyledButton("COMPLETE TRANSACTION", new Color(0x3E, 0x27, 0x23), new Color(0xFF, 0xEC, 0xB3),
+                8);
         btnCheckout.setFont(new Font("Segoe UI", Font.BOLD, 15));
         btnCheckout.setMaximumSize(new Dimension(380, 48));
         btnCheckout.addActionListener(e -> performCheckout());
@@ -278,19 +278,23 @@ public class POSPanel extends JPanel {
 
     public void loadProducts(int categoryId) {
         pnlProductGrid.removeAll();
-        List<Product> products = categoryId == 0 ? productDAO.getAllProducts() : productDAO.getProductsByCategory(categoryId);
+        List<Product> products = categoryId == 0 ? productDAO.getAllProducts()
+                : productDAO.getProductsByCategory(categoryId);
 
         for (Product p : products) {
             JPanel card = new JPanel(new BorderLayout(10, 5));
             card.setPreferredSize(new Dimension(0, 92));
             card.setBackground(new Color(0xFF, 0xFA, 0xF0));
             card.setBorder(BorderFactory.createCompoundBorder(
-                    BorderFactory.createLineBorder(p.isOutOfStock() ? new Color(0xEF, 0x53, 0x50) : (p.isLowStock() ? new Color(0xFF, 0xB7, 0x4D) : new Color(0xD7, 0xCC, 0xB9)), 2, true),
-                    new EmptyBorder(8, 8, 8, 8)
-            ));
+                    BorderFactory.createLineBorder(
+                            p.isOutOfStock() ? new Color(0xEF, 0x53, 0x50)
+                                    : (p.isLowStock() ? new Color(0xFF, 0xB7, 0x4D) : new Color(0xD7, 0xCC, 0xB9)),
+                            2, true),
+                    new EmptyBorder(8, 8, 8, 8)));
 
             // Icon / Badge
-            JLabel lblIcon = new JLabel(MascotIcon.getProductIcon(p, 60, 60), JLabel.CENTER);
+            JLabel lblIcon = new JLabel(MascotIcon.getProductIcon(p, 60, 60),
+                    JLabel.CENTER);
 
             // Details
             JPanel pnlInfo = new JPanel();
@@ -359,12 +363,16 @@ public class POSPanel extends JPanel {
     private void refreshCartDisplay() {
         cartTableModel.setRowCount(0);
         for (OrderItem item : posService.getCart()) {
-            StringBuilder details = new StringBuilder("<html><b>" + item.getProductName() + "</b> (" + item.getSize() + ")");
-            if (!"N/A".equals(item.getTemperature())) details.append("<br>").append(item.getTemperature());
-            if (!"N/A".equals(item.getSugarLevel())) details.append(", Sugar: ").append(item.getSugarLevel());
-            if (!"N/A".equals(item.getMilkOption())) details.append(", ").append(item.getMilkOption());
+            StringBuilder details = new StringBuilder(
+                    "<html><b>" + item.getProductName() + "</b> (" + item.getSize() + ")");
+            if (!"N/A".equals(item.getTemperature()))
+                details.append("<br>").append(item.getTemperature());
+            if (!"N/A".equals(item.getSugarLevel()))
+                details.append(", Sugar: ").append(item.getSugarLevel());
+            if (!"N/A".equals(item.getMilkOption()))
+                details.append(", ").append(item.getMilkOption());
 
-            cartTableModel.addRow(new Object[]{
+            cartTableModel.addRow(new Object[] {
                     details.toString(),
                     item.getQuantity(),
                     CurrencyFormatter.format(item.getUnitPrice()),
@@ -408,14 +416,15 @@ public class POSPanel extends JPanel {
             try {
                 amountReceived = Double.parseDouble(txtCashReceived.getText().trim());
             } catch (NumberFormatException e) {
-                JOptionPane.showMessageDialog(this, "Please enter a valid cash amount!", "Invalid Input", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Please enter a valid cash amount!", "Invalid Input",
+                        JOptionPane.ERROR_MESSAGE);
                 return;
             }
 
             if (!posService.validateCashPayment(amountReceived)) {
                 JOptionPane.showMessageDialog(this,
                         "Insufficient cash received!\nTotal: " + CurrencyFormatter.format(posService.getTotal()) +
-                        "\nReceived: " + CurrencyFormatter.format(amountReceived),
+                                "\nReceived: " + CurrencyFormatter.format(amountReceived),
                         "Payment Rejected",
                         JOptionPane.ERROR_MESSAGE);
                 return;
@@ -423,13 +432,15 @@ public class POSPanel extends JPanel {
         } else {
             // GCash
             if (!chkGCashVerified.isSelected()) {
-                JOptionPane.showMessageDialog(this, "Please confirm offline GCash payment verification first!", "GCash Verification Required", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Please confirm offline GCash payment verification first!",
+                        "GCash Verification Required", JOptionPane.WARNING_MESSAGE);
                 return;
             }
             amountReceived = posService.getTotal();
         }
 
-        Order completedOrder = posService.checkout(AuthService.getInstance().getCurrentUser(), paymentMethod, amountReceived);
+        Order completedOrder = posService.checkout(AuthService.getInstance().getCurrentUser(), paymentMethod,
+                amountReceived);
         if (completedOrder != null) {
             refreshCartDisplay();
             loadProducts(0); // Refresh stock counts in grid
@@ -440,7 +451,8 @@ public class POSPanel extends JPanel {
             ReceiptDialog dlg = new ReceiptDialog(mainFrame, completedOrder);
             dlg.setVisible(true);
         } else {
-            JOptionPane.showMessageDialog(this, "Transaction failed! Please check stock levels.", "Transaction Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Transaction failed! Please check stock levels.", "Transaction Error",
+                    JOptionPane.ERROR_MESSAGE);
         }
     }
 }

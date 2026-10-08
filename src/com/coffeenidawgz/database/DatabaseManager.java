@@ -25,7 +25,7 @@ public class DatabaseManager {
 
     public static void initializeDatabase() {
         try (Connection conn = getConnection();
-             Statement stmt = conn.createStatement()) {
+                Statement stmt = conn.createStatement()) {
 
             // Enable foreign keys
             stmt.execute("PRAGMA foreign_keys = ON;");
@@ -168,7 +168,7 @@ public class DatabaseManager {
     private static void seedInitialData(Connection conn) throws SQLException {
         // Seed Users
         try (Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery("SELECT COUNT(*) FROM users")) {
+                ResultSet rs = stmt.executeQuery("SELECT COUNT(*) FROM users")) {
             if (rs.next() && rs.getInt(1) == 0) {
                 String adminPass = PasswordHasher.hashPassword("admin123");
                 String cashierPass = PasswordHasher.hashPassword("cashier123");
@@ -194,9 +194,9 @@ public class DatabaseManager {
 
         // Seed Categories
         try (Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery("SELECT COUNT(*) FROM categories")) {
+                ResultSet rs = stmt.executeQuery("SELECT COUNT(*) FROM categories")) {
             if (rs.next() && rs.getInt(1) == 0) {
-                String[] cats = {"COFFEE", "NON-COFFEE", "ICED DRINKS", "HOT DRINKS", "SNACKS", "ADD-ONS"};
+                String[] cats = { "COFFEE", "NON-COFFEE", "ICED DRINKS", "HOT DRINKS", "SNACKS", "ADD-ONS" };
                 String sql = "INSERT INTO categories (name) VALUES (?)";
                 try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
                     for (String cat : cats) {
@@ -209,7 +209,7 @@ public class DatabaseManager {
 
         // Seed Products
         try (Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery("SELECT COUNT(*) FROM products")) {
+                ResultSet rs = stmt.executeQuery("SELECT COUNT(*) FROM products")) {
             if (rs.next() && rs.getInt(1) == 0) {
                 // Get category IDs
                 int catCoffee = getCategoryIdByName(conn, "COFFEE");
@@ -221,56 +221,78 @@ public class DatabaseManager {
                 String sqlP = "INSERT INTO products (category_id, name, description, small_price, medium_price, large_price, stock_quantity, low_stock_threshold, image_path) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
                 try (PreparedStatement pstmt = conn.prepareStatement(sqlP)) {
                     // Americano
-                    insertProduct(pstmt, catCoffee, "Americano", "Classic rich espresso diluted with hot water", 80, 100, 120, 30, 5, "images/Americano.jpg");
+                    insertProduct(pstmt, catCoffee, "Americano", "Classic rich espresso diluted with hot water", 80,
+                            100, 120, 30, 5, "images/Americano.jpg");
                     // Latte
-                    insertProduct(pstmt, catCoffee, "Latte", "Smooth espresso with steamed milk and light foam", 90, 110, 130, 25, 5, "images/Latte.jpg");
+                    insertProduct(pstmt, catCoffee, "Latte", "Smooth espresso with steamed milk and light foam", 90,
+                            110, 130, 25, 5, "images/Latte.jpg");
                     // Cappuccino
-                    insertProduct(pstmt, catCoffee, "Cappuccino", "Espresso topped with thick creamy milk foam", 90, 110, 130, 20, 5, "images/Latte.jpg");
+                    insertProduct(pstmt, catCoffee, "Cappuccino", "Espresso topped with thick creamy milk foam", 90,
+                            110, 130, 20, 5, "images/Latte.jpg");
                     // Mocha
-                    insertProduct(pstmt, catCoffee, "Mocha", "Rich espresso blended with sweet chocolate & milk", 100, 120, 140, 18, 5, "images/Mocha.jpg");
+                    insertProduct(pstmt, catCoffee, "Mocha", "Rich espresso blended with sweet chocolate & milk", 100,
+                            120, 140, 18, 5, "images/Mocha.jpg");
                     // Spanish Latte
-                    insertProduct(pstmt, catCoffee, "Spanish Latte", "Espresso with condensed milk & creamy texture", 105, 125, 145, 22, 5, "images/Latte.jpg");
+                    insertProduct(pstmt, catCoffee, "Spanish Latte", "Espresso with condensed milk & creamy texture",
+                            105, 125, 145, 22, 5, "images/Latte.jpg");
 
                     // Iced Drinks
-                    insertProduct(pstmt, catIced, "Iced Latte", "Chilled espresso with cold milk over ice", 95, 115, 135, 25, 5, "images/Latte.jpg");
-                    insertProduct(pstmt, catIced, "Iced Mocha", "Rich chocolate espresso served cold", 105, 125, 145, 20, 5, "images/IcedMocha.jpg");
-                    insertProduct(pstmt, catIced, "Iced Americano", "Refreshing cold espresso over ice", 85, 105, 125, 35, 5, "images/Americano.jpg");
+                    insertProduct(pstmt, catIced, "Iced Latte", "Chilled espresso with cold milk over ice", 95, 115,
+                            135, 25, 5, "images/Latte.jpg");
+                    insertProduct(pstmt, catIced, "Iced Mocha", "Rich chocolate espresso served cold", 105, 125, 145,
+                            20, 5, "images/IcedMocha.jpg");
+                    insertProduct(pstmt, catIced, "Iced Americano", "Refreshing cold espresso over ice", 85, 105, 125,
+                            35, 5, "images/Americano.jpg");
 
                     // Hot Drinks
-                    insertProduct(pstmt, catHot, "Hot Latte", "Warm espresso with silky steamed milk", 90, 110, 130, 20, 5, "images/Latte.jpg");
-                    insertProduct(pstmt, catHot, "Hot Chocolate", "Rich warm Belgian cocoa drink", 85, 105, 125, 15, 5, "images/Hotchocolate.jpg");
-                    insertProduct(pstmt, catHot, "Hot Americano", "Classic warm espresso brew", 80, 100, 120, 25, 5, "images/Americano.jpg");
+                    insertProduct(pstmt, catHot, "Hot Latte", "Warm espresso with silky steamed milk", 90, 110, 130, 20,
+                            5, "images/Latte.jpg");
+                    insertProduct(pstmt, catHot, "Hot Chocolate", "Rich warm Belgian cocoa drink", 85, 105, 125, 15, 5,
+                            "images/Hotchocolate.jpg");
+                    insertProduct(pstmt, catHot, "Hot Americano", "Classic warm espresso brew", 80, 100, 120, 25, 5,
+                            "images/Americano.jpg");
 
                     // Non-Coffee
-                    insertProduct(pstmt, catNonCoffee, "Chocolate", "Creamy chocolate drink served hot or iced", 85, 105, 125, 18, 5, "images/Hotchocolate.jpg");
-                    insertProduct(pstmt, catNonCoffee, "Matcha Latte", "Premium Uji matcha blended with fresh milk", 110, 130, 150, 15, 5, "images/Matchalatte.jpg");
-                    insertProduct(pstmt, catNonCoffee, "Milk Tea", "Brewed black tea with sweet creamy milk", 80, 100, 120, 20, 5, "images/Matchalatte.jpg");
+                    insertProduct(pstmt, catNonCoffee, "Chocolate", "Creamy chocolate drink served hot or iced", 85,
+                            105, 125, 18, 5, "images/Hotchocolate.jpg");
+                    insertProduct(pstmt, catNonCoffee, "Matcha Latte", "Premium Uji matcha blended with fresh milk",
+                            110, 130, 150, 15, 5, "images/Matchalatte.jpg");
+                    insertProduct(pstmt, catNonCoffee, "Milk Tea", "Brewed black tea with sweet creamy milk", 80, 100,
+                            120, 20, 5, "images/Matchalatte.jpg");
 
                     // Snacks
-                    insertProduct(pstmt, catSnacks, "Chocolate Cookie", "Freshly baked chewy chocolate chip cookie", 50, 50, 50, 15, 5, "images/Fudgebrownies.jpg");
-                    insertProduct(pstmt, catSnacks, "Fudge Brownie", "Decadent dark chocolate brownie slice", 65, 65, 65, 12, 5, "images/Fudgebrownies.jpg");
+                    insertProduct(pstmt, catSnacks, "Fudge Brownie", "Decadent dark chocolate brownie slice", 65, 65,
+                            65, 12, 5, "images/Fudgebrownies.jpg");
                 }
             }
         }
 
         // Migrate existing NULL image_paths for default products if needed
         try (Statement stmt = conn.createStatement()) {
-            stmt.executeUpdate("UPDATE products SET image_path = 'images/Americano.jpg' WHERE (image_path IS NULL OR image_path = '') AND LOWER(name) LIKE '%americano%'");
-            stmt.executeUpdate("UPDATE products SET image_path = 'images/IcedMocha.jpg' WHERE (image_path IS NULL OR image_path = '') AND LOWER(name) LIKE '%iced mocha%'");
-            stmt.executeUpdate("UPDATE products SET image_path = 'images/Mocha.jpg' WHERE (image_path IS NULL OR image_path = '') AND LOWER(name) LIKE '%mocha%' AND LOWER(name) NOT LIKE '%iced%'");
-            stmt.executeUpdate("UPDATE products SET image_path = 'images/Latte.jpg' WHERE (image_path IS NULL OR image_path = '') AND (LOWER(name) LIKE '%latte%' OR LOWER(name) LIKE '%cappuccino%') AND LOWER(name) NOT LIKE '%matcha%'");
-            stmt.executeUpdate("UPDATE products SET image_path = 'images/Matchalatte.jpg' WHERE (image_path IS NULL OR image_path = '') AND (LOWER(name) LIKE '%matcha%' OR LOWER(name) LIKE '%tea%')");
-            stmt.executeUpdate("UPDATE products SET image_path = 'images/Hotchocolate.jpg' WHERE (image_path IS NULL OR image_path = '') AND (LOWER(name) LIKE '%chocolate%' OR LOWER(name) LIKE '%cocoa%') AND LOWER(name) NOT LIKE '%cookie%'");
-            stmt.executeUpdate("UPDATE products SET image_path = 'images/Fudgebrownies.jpg' WHERE (image_path IS NULL OR image_path = '') AND (LOWER(name) LIKE '%brownie%' OR LOWER(name) LIKE '%cookie%')");
+            stmt.executeUpdate(
+                    "UPDATE products SET image_path = 'images/Americano.jpg' WHERE (image_path IS NULL OR image_path = '') AND LOWER(name) LIKE '%americano%'");
+            stmt.executeUpdate(
+                    "UPDATE products SET image_path = 'images/IcedMocha.jpg' WHERE (image_path IS NULL OR image_path = '') AND LOWER(name) LIKE '%iced mocha%'");
+            stmt.executeUpdate(
+                    "UPDATE products SET image_path = 'images/Mocha.jpg' WHERE (image_path IS NULL OR image_path = '') AND LOWER(name) LIKE '%mocha%' AND LOWER(name) NOT LIKE '%iced%'");
+            stmt.executeUpdate(
+                    "UPDATE products SET image_path = 'images/Latte.jpg' WHERE (image_path IS NULL OR image_path = '') AND (LOWER(name) LIKE '%latte%' OR LOWER(name) LIKE '%cappuccino%') AND LOWER(name) NOT LIKE '%matcha%'");
+            stmt.executeUpdate(
+                    "UPDATE products SET image_path = 'images/Matchalatte.jpg' WHERE (image_path IS NULL OR image_path = '') AND (LOWER(name) LIKE '%matcha%' OR LOWER(name) LIKE '%tea%')");
+            stmt.executeUpdate(
+                    "UPDATE products SET image_path = 'images/Hotchocolate.jpg' WHERE (image_path IS NULL OR image_path = '') AND (LOWER(name) LIKE '%chocolate%' OR LOWER(name) LIKE '%cocoa%') AND LOWER(name) NOT LIKE '%cookie%'");
+            stmt.executeUpdate(
+                    "UPDATE products SET image_path = 'images/Fudgebrownies.jpg' WHERE (image_path IS NULL OR image_path = '') AND (LOWER(name) LIKE '%brownie%' OR LOWER(name) LIKE '%cookie%')");
 
             // Remove products that have no dedicated image in the images folder
             stmt.executeUpdate("UPDATE products SET status = 'INACTIVE' WHERE name = 'Blueberry Cake'");
             stmt.executeUpdate("UPDATE products SET status = 'INACTIVE' WHERE name = 'Ham & Cheese Sandwich'");
-        } catch (SQLException ignored) {}
+        } catch (SQLException ignored) {
+        }
 
         // Seed Add-Ons
         try (Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery("SELECT COUNT(*) FROM add_ons")) {
+                ResultSet rs = stmt.executeQuery("SELECT COUNT(*) FROM add_ons")) {
             if (rs.next() && rs.getInt(1) == 0) {
                 String sqlA = "INSERT INTO add_ons (name, price) VALUES (?, ?)";
                 try (PreparedStatement pstmt = conn.prepareStatement(sqlA)) {
@@ -284,7 +306,7 @@ public class DatabaseManager {
 
         // Seed Discounts
         try (Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery("SELECT COUNT(*) FROM discounts")) {
+                ResultSet rs = stmt.executeQuery("SELECT COUNT(*) FROM discounts")) {
             if (rs.next() && rs.getInt(1) == 0) {
                 String sqlD = "INSERT INTO discounts (name, type, value) VALUES (?, ?, ?)";
                 try (PreparedStatement pstmt = conn.prepareStatement(sqlD)) {
@@ -298,7 +320,7 @@ public class DatabaseManager {
 
         // Seed Settings
         try (Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery("SELECT COUNT(*) FROM settings")) {
+                ResultSet rs = stmt.executeQuery("SELECT COUNT(*) FROM settings")) {
             if (rs.next() && rs.getInt(1) == 0) {
                 String sqlS = "INSERT INTO settings (setting_key, setting_value) VALUES (?, ?)";
                 try (PreparedStatement pstmt = conn.prepareStatement(sqlS)) {
@@ -320,14 +342,16 @@ public class DatabaseManager {
         try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, name);
             try (ResultSet rs = pstmt.executeQuery()) {
-                if (rs.next()) return rs.getInt(1);
+                if (rs.next())
+                    return rs.getInt(1);
             }
         }
         return 1;
     }
 
     private static void insertProduct(PreparedStatement pstmt, int catId, String name, String desc,
-                                      double sPrice, double mPrice, double lPrice, int stock, int threshold, String imagePath) throws SQLException {
+            double sPrice, double mPrice, double lPrice, int stock, int threshold, String imagePath)
+            throws SQLException {
         pstmt.setInt(1, catId);
         pstmt.setString(2, name);
         pstmt.setString(3, desc);
@@ -346,7 +370,8 @@ public class DatabaseManager {
         pstmt.executeUpdate();
     }
 
-    private static void insertDiscount(PreparedStatement pstmt, String name, String type, double value) throws SQLException {
+    private static void insertDiscount(PreparedStatement pstmt, String name, String type, double value)
+            throws SQLException {
         pstmt.setString(1, name);
         pstmt.setString(2, type);
         pstmt.setDouble(3, value);
