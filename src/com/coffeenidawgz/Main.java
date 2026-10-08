@@ -16,6 +16,9 @@ public class Main {
             try {
                 // Set System Look & Feel
                 UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+                UIManager.put("Button.foreground", new Color(0x21, 0x21, 0x21));
+                UIManager.put("OptionPane.messageForeground", new Color(0x3E, 0x27, 0x23));
+                UIManager.put("OptionPane.buttonFont", new Font("Segoe UI", Font.BOLD, 12));
             } catch (Exception e) {
                 e.printStackTrace();
             }

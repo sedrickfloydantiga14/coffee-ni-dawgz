@@ -50,7 +50,9 @@ public class StyledButton extends JButton {
         g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 
         Color bg = normalBg;
-        if (getModel().isPressed()) {
+        if (!isEnabled()) {
+            bg = new Color(0xBD, 0xB7, 0xAB);
+        } else if (getModel().isPressed()) {
             bg = pressedBg;
         } else if (getModel().isRollover()) {
             bg = hoverBg;

@@ -151,14 +151,18 @@ public class CustomizationDialog extends JDialog {
         add(scroll, BorderLayout.CENTER);
 
         // Buttons
-        JPanel pnlBtns = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        JPanel pnlBtns = new JPanel(new FlowLayout(FlowLayout.RIGHT, 10, 10));
         pnlBtns.setBackground(new Color(0xEF, 0xE5, 0xD8));
+        pnlBtns.setBorder(new EmptyBorder(5, 15, 10, 15));
 
         StyledButton btnCancel = new StyledButton("Cancel", new Color(0x8D, 0x6E, 0x63), Color.WHITE, 6);
+        btnCancel.setFont(new Font("Segoe UI", Font.BOLD, 12));
+        btnCancel.setPreferredSize(new Dimension(100, 36));
         btnCancel.addActionListener(e -> dispose());
 
-        StyledButton btnAdd = new StyledButton("ADD TO CART", new Color(0x4E, 0x34, 0x2E), Color.WHITE, 6);
-        btnAdd.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        StyledButton btnAdd = new StyledButton("ADD TO CART", new Color(0x3E, 0x27, 0x23), new Color(0xFF, 0xEC, 0xB3), 6);
+        btnAdd.setFont(new Font("Segoe UI", Font.BOLD, 13));
+        btnAdd.setPreferredSize(new Dimension(140, 36));
         btnAdd.addActionListener(e -> onAddToCart());
 
         pnlBtns.add(btnCancel);

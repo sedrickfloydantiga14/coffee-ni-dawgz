@@ -86,33 +86,45 @@ public class EmployeeManagementPanel extends JPanel {
 
     private void openCreateCashierDialog() {
         JDialog dlg = new JDialog((Frame) SwingUtilities.getWindowAncestor(this), "Create Cashier Account", true);
-        dlg.setSize(380, 300);
+        dlg.setSize(400, 320);
         dlg.setLocationRelativeTo(this);
         dlg.setLayout(new BorderLayout());
 
-        JPanel pnlForm = new JPanel(new GridLayout(0, 2, 10, 10));
-        pnlForm.setBorder(new EmptyBorder(15, 20, 15, 20));
+        JPanel pnlForm = new JPanel(new GridLayout(0, 2, 10, 12));
+        pnlForm.setBackground(new Color(0xF5, 0xEF, 0xE6));
+        pnlForm.setBorder(new EmptyBorder(18, 20, 15, 20));
 
+        Font lblFont = new Font("Segoe UI", Font.BOLD, 12);
+        Color lblColor = new Color(0x3E, 0x27, 0x23);
+
+        JLabel lblU = new JLabel("Username:"); lblU.setFont(lblFont); lblU.setForeground(lblColor);
         JTextField txtUser = new JTextField();
+        JLabel lblP = new JLabel("Password:"); lblP.setFont(lblFont); lblP.setForeground(lblColor);
         JPasswordField txtPass = new JPasswordField();
+        JLabel lblF = new JLabel("Full Name:"); lblF.setFont(lblFont); lblF.setForeground(lblColor);
         JTextField txtFullName = new JTextField();
+        JLabel lblR = new JLabel("Role:"); lblR.setFont(lblFont); lblR.setForeground(lblColor);
         JComboBox<String> cboRole = new JComboBox<>(new String[]{"CASHIER", "ADMIN"});
 
-        pnlForm.add(new JLabel("Username:")); pnlForm.add(txtUser);
-        pnlForm.add(new JLabel("Password:")); pnlForm.add(txtPass);
-        pnlForm.add(new JLabel("Full Name:")); pnlForm.add(txtFullName);
-        pnlForm.add(new JLabel("Role:")); pnlForm.add(cboRole);
+        pnlForm.add(lblU); pnlForm.add(txtUser);
+        pnlForm.add(lblP); pnlForm.add(txtPass);
+        pnlForm.add(lblF); pnlForm.add(txtFullName);
+        pnlForm.add(lblR); pnlForm.add(cboRole);
 
         dlg.add(pnlForm, BorderLayout.CENTER);
 
-        JPanel pnlBtns = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-        JButton btnCancel = new JButton("Cancel");
+        JPanel pnlBtns = new JPanel(new FlowLayout(FlowLayout.RIGHT, 10, 10));
+        pnlBtns.setBackground(new Color(0xEF, 0xE5, 0xD8));
+        pnlBtns.setBorder(new EmptyBorder(5, 15, 10, 15));
+
+        StyledButton btnCancel = new StyledButton("Cancel", new Color(0x8D, 0x6E, 0x63), Color.WHITE, 6);
+        btnCancel.setFont(new Font("Segoe UI", Font.BOLD, 12));
+        btnCancel.setPreferredSize(new Dimension(100, 36));
         btnCancel.addActionListener(e -> dlg.dispose());
 
-        JButton btnCreate = new JButton("Create User");
-        btnCreate.setFont(new Font("Segoe UI", Font.BOLD, 12));
-        btnCreate.setBackground(new Color(0x4E, 0x34, 0x2E));
-        btnCreate.setForeground(Color.WHITE);
+        StyledButton btnCreate = new StyledButton("Create User", new Color(0x3E, 0x27, 0x23), new Color(0xFF, 0xEC, 0xB3), 6);
+        btnCreate.setFont(new Font("Segoe UI", Font.BOLD, 13));
+        btnCreate.setPreferredSize(new Dimension(120, 36));
         btnCreate.addActionListener(e -> {
             String u = txtUser.getText().trim();
             String p = new String(txtPass.getPassword());
